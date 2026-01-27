@@ -24,6 +24,7 @@ import {
 	type OSPermission,
 	type OSPermissionStatus,
 } from "~/utils/tauri";
+import IconLucideVolume2 from "~icons/lucide/volume-2";
 import IconLucideVolumeX from "~icons/lucide/volume-x";
 
 function isPermitted(status?: OSPermissionStatus): boolean {
@@ -226,7 +227,27 @@ function Startup(props: { onClose: () => void }) {
 	const [isExiting, setIsExiting] = createSignal(false);
 
 	const audio = new Audio(startupAudio);
-	if (!audioState.isMuted) audio.play();
+	audio.loop = true;
+
+	const playAudio = () => {
+		if (!audioState.isMuted) {
+			audio.play().catch((err) => {
+				console.warn("Autoplay still blocked or asset failed:", err);
+			});
+		}
+	};
+
+	onMount(() => {
+		playAudio();
+		window.addEventListener("mousedown", playAudio, { once: true });
+		window.addEventListener("keydown", playAudio, { once: true });
+	});
+
+	onCleanup(() => {
+		window.removeEventListener("mousedown", playAudio);
+		window.removeEventListener("keydown", playAudio);
+		audio.pause();
+	});
 
 	// Add refs to store animation objects
 	let cloud1Animation: Animation | undefined;
@@ -263,7 +284,7 @@ function Startup(props: { onClose: () => void }) {
 		}, 600);
 	};
 
-	onCleanup(() => audio.pause());
+	// onCleanup removed from here and moved up to handle all audio logic together
 
 	onMount(() => {
 		const cloud1El = document.getElementById("cloud-1");
@@ -315,9 +336,12 @@ function Startup(props: { onClose: () => void }) {
 	});
 
 	const toggleMute = async () => {
-		setAudioState("isMuted", (m) => !m);
-
-		audio.muted = audioState.isMuted;
+		const newMuted = !audioState.isMuted;
+		setAudioState("isMuted", newMuted);
+		audio.muted = newMuted;
+		if (!newMuted) {
+			audio.play().catch(console.error);
+		}
 	};
 
 	return (
