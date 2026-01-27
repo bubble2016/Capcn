@@ -1,19 +1,20 @@
 use super::*;
 use crate::{
-    ChannelAudioSourceConfig,
     output_pipeline::{
         self, AudioFrame, ChannelAudioSource, ChannelVideoSource, ChannelVideoSourceConfig,
         SetupCtx,
     },
+    ChannelAudioSourceConfig,
 };
-use anyhow::{Context, anyhow};
+use anyhow::{anyhow, Context};
 use cap_timestamp::Timestamp;
 use cidre::*;
-use futures::{FutureExt as _, channel::mpsc, future::BoxFuture};
+use futures::{channel::mpsc, future::BoxFuture, FutureExt as _};
 use std::{
+    future::Future,
     sync::{
-        Arc,
         atomic::{self, AtomicBool, AtomicU32, AtomicU64},
+        Arc,
     },
     time::Duration,
 };
