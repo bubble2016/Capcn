@@ -4,9 +4,10 @@ import { videos } from "@cap/database/schema";
 import type { Video } from "@cap/web-domain";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import type { RouteContext } from "@/contracts/next";
 
 export async function POST(
-	_request: Request,
+	req: Request,
 	props: RouteContext<"/api/videos/[videoId]/retry-transcription">,
 ) {
 	try {

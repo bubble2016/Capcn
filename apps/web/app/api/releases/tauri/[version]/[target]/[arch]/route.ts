@@ -1,11 +1,12 @@
 import { Octokit } from "@octokit/rest";
+import type { RouteContext } from "@/contracts/next";
 
 const octokit = new Octokit();
 
 export const runtime = "edge";
 
 export async function GET(
-	_req: Request,
+	req: Request,
 	props: RouteContext<"/api/releases/tauri/[version]/[target]/[arch]">,
 ) {
 	const params = await props.params;

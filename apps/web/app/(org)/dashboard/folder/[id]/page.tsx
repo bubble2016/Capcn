@@ -4,6 +4,7 @@ import { makeCurrentUserLayer } from "@cap/web-backend";
 import { Folder } from "@cap/web-domain";
 import { Effect } from "effect";
 import { notFound } from "next/navigation";
+import type { PageProps } from "@/contracts/next";
 import {
 	getChildFolders,
 	getFolderBreadcrumb,

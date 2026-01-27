@@ -45,6 +45,7 @@ import { runPromise } from "@/lib/server";
 import { transcribeVideo } from "@/lib/transcribe";
 import { optionFromTOrFirst } from "@/utils/effect";
 import { isAiGenerationEnabled } from "@/utils/flags";
+import type { PageProps } from "@/contracts/next";
 import { PasswordOverlay } from "./_components/PasswordOverlay";
 import { ShareHeader } from "./_components/ShareHeader";
 import { Share } from "./Share";
@@ -272,7 +273,9 @@ export async function generateMetadata(
 	);
 }
 
-export default async function ShareVideoPage(props: PageProps<"/s/[videoId]">) {
+export default async function ShareVideoPage(
+	props: PageProps<"/s/[videoId]">,
+) {
 	const params = await props.params;
 	const searchParams = await props.searchParams;
 	const videoId = params.videoId as Video.VideoId;

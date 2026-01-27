@@ -18,6 +18,7 @@ import { and, count, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { type Array, Effect } from "effect";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
+import type { PageProps } from "@/contracts/next";
 import { runPromise } from "@/lib/server";
 import { Caps } from "./Caps";
 
@@ -106,7 +107,9 @@ const getSharedSpacesForVideos = Effect.fn(function* (
 	return sharedSpacesMap;
 });
 
-export default async function CapsPage(props: PageProps<"/dashboard/caps">) {
+export default async function CapsPage(
+	props: PageProps<"/dashboard/caps">,
+) {
 	const searchParams = await props.searchParams;
 	const user = await getCurrentUser();
 

@@ -23,6 +23,7 @@ import IconCapChevronDown from "~icons/cap/chevron-down";
 import IconCapCircleCheck from "~icons/cap/circle-check";
 import IconLucideCheck from "~icons/lucide/check";
 import IconLucideDownload from "~icons/lucide/download";
+import IconLucideMessageSquare from "~icons/lucide/message-square";
 import { useEditorContext } from "./context";
 import { TextInput } from "./TextInput";
 import {
@@ -561,7 +562,7 @@ export function CaptionsTab() {
 	);
 
 	return (
-		<Field name={t("editor.captions.title")} icon={<IconCapMessageBubble />}>
+		<Field name={t("editor.captions.title")} icon={<IconLucideMessageSquare />}>
 			<div class="flex flex-col gap-4">
 				<div class="space-y-6 transition-all duration-200">
 					<div class="space-y-4">
@@ -734,7 +735,7 @@ export function CaptionsTab() {
 					>
 						<Field
 							name={t("editor.captions.fontSettings")}
-							icon={<IconCapMessageBubble />}
+							icon={<IconLucideMessageSquare />}
 						>
 							<div class="space-y-3">
 								<div class="flex flex-col gap-2">
@@ -836,7 +837,7 @@ export function CaptionsTab() {
 
 						<Field
 							name={t("editor.captions.backgroundSettings")}
-							icon={<IconCapMessageBubble />}
+							icon={<IconLucideMessageSquare />}
 						>
 							<div class="space-y-3">
 								<div class="flex flex-col gap-2">
@@ -871,7 +872,7 @@ export function CaptionsTab() {
 
 						<Field
 							name={t("editor.captions.position")}
-							icon={<IconCapMessageBubble />}
+							icon={<IconLucideMessageSquare />}
 						>
 							<KSelect<string>
 								options={POSITION_OPTIONS.map((p) => p.value)}
@@ -927,7 +928,7 @@ export function CaptionsTab() {
 
 						<Field
 							name={t("editor.captions.animation")}
-							icon={<IconCapMessageBubble />}
+							icon={<IconLucideMessageSquare />}
 						>
 							<div class="space-y-3">
 								<div class="flex flex-col gap-2">
@@ -964,7 +965,7 @@ export function CaptionsTab() {
 
 						<Field
 							name={t("editor.captions.fontWeight")}
-							icon={<IconCapMessageBubble />}
+							icon={<IconLucideMessageSquare />}
 						>
 							<KSelect
 								options={[
@@ -1065,7 +1066,7 @@ export function CaptionsTab() {
 
 						<Field
 							name={t("editor.captions.exportOptions")}
-							icon={<IconCapMessageBubble />}
+							icon={<IconLucideMessageSquare />}
 						>
 							<Subfield name={t("editor.captions.exportWithSubtitles")}>
 								<Toggle
@@ -1082,7 +1083,7 @@ export function CaptionsTab() {
 					<Show when={hasCaptions()}>
 						<Field
 							name={t("editor.captions.segments")}
-							icon={<IconCapMessageBubble />}
+							icon={<IconLucideMessageSquare />}
 						>
 							<div class="space-y-4">
 								<div class="flex items-center justify-between">
