@@ -13,7 +13,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        target: [aarch64-apple-darwin, x86_64-apple-darwin]
+        target: [aarch64-apple-darwin]
 
     steps:
       - name: Checkout repository
