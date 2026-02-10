@@ -1,22 +1,18 @@
 name: "Build CN Version (Windows)"
 
-# 手动触发开关
-于:
+on:
   workflow_dispatch:
 
 env:
-  # 这一行保持不变，指向你的配置文件
   APP_CARGO_TOML: apps/desktop/src-tauri/Cargo.toml
 
 jobs:
   build-windows:
-    # 1. 改成 Windows 环境
     runs-on: windows-latest
     permissions:
       contents: write
     strategy:
       matrix:
-        # 2. 改成 Windows 的编译目标架构
         target: [x86_64-pc-windows-msvc]
 
     steps:
@@ -40,7 +36,6 @@ jobs:
         with:
           version: 10
 
-      # 3. Rust 环境配置（自动适配 Windows）
       - name: Rust setup
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -54,29 +49,24 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      # 4. 生成环境变量 (Windows 下依然有效)
       - name: Create .env file
+        shell: bash
         run: |
           echo "appVersion=${{ steps.read_version.outputs.value }}" >> .env
           echo "VITE_ENVIRONMENT=production" >> .env
 
       - name: Build app
         working-directory: apps/desktop
-        # 5. 核心修改：去掉了所有 Signing Key (密钥) 的引用
-        # 即使没有签名，Windows 也能编译出 exe，只是安装时会提示未知来源
-        run: |
-          pnpm -w cap-setup
-          pnpm tauri build --target ${{ matrix.target }}
         env:
           CI: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pnpm -w cap-setup
+          pnpm tauri build --target ${{ matrix.target }}
 
-      # 6. 上传产物修改：寻找 .exe 文件而不是 .dmg
-      # 注意：路径我帮你修正了，通常在 src-tauri/target 下
       - name: Upload Windows Setup
         uses: actions/upload-artifact@v4
         with:
           name: Cap-CN-Windows-${{ steps.read_version.outputs.value }}
-          # 扫描 nsis 文件夹下的 exe 安装包
           path: apps/desktop/src-tauri/target/${{ matrix.target }}/release/bundle/nsis/*.exe
           if-no-files-found: warn
